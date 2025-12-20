@@ -16,7 +16,7 @@ app.use(cors());
 app.use(json());
 app.use(morgan("dev"));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use("/api", productsRoutes);
 
