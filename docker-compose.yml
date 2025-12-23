@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # Servicio de la Base de Datos (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: sistema_inventario
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+    ports:
+      # Mapea el puerto 3306 del contenedor al 3306 de tu máquina
+      - "3306:3306"
+    volumes:
+      # Volumen para persistir los datos de la base de datos
+      - mysql-data:/var/lib/mysql
+
+  # Servicio del Backend (API)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_api
+    restart: always
+    ports:
+      # Mapea el puerto 4000 del contenedor al 4000 de tu máquina
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      DB_HOST: db
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_NAME: sistema_inventario
+      DB_PORT: 3306
+    volumes:
+      # Monta la carpeta de uploads para que los archivos persistan
+      - ./src/backend/uploads:/app/src/backend/uploads
+    depends_on:
+      # Asegura que el servicio 'db' se inicie antes que el 'backend'
+      - db
+
+  # Servicio del Frontend (React App)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: frontend_app
+    restart: always
+    ports:
+      # Mapea el puerto 80 del contenedor al 8080 de tu máquina
+      - "8080:80"
+    environment:
+      # Vite necesita esta variable durante el build para que el cliente sepa a dónde llamar
+      - VITE_API_URL=http://localhost:4000
+    depends_on:
+      # Asegura que el servicio 'backend' se inicie antes que el 'frontend'
+      - backend
+
+volumes:
+  # Declara el volumen para la base de datos
+  mysql-data:
