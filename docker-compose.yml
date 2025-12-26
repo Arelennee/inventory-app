@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Servicio de la Base de Datos (MySQL)
   db:
@@ -13,10 +11,16 @@ services:
       MYSQL_PASSWORD: admin123
     ports:
       # Mapea el puerto 3306 del contenedor al 3306 de tu máquina
-      - "3306:3306"
+      - "3308:3306"
     volumes:
       # Volumen para persistir los datos de la base de datos
       - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-padmin123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Servicio del Backend (API)
   backend:
@@ -39,22 +43,23 @@ services:
       # Monta la carpeta de uploads para que los archivos persistan
       - ./src/backend/uploads:/app/src/backend/uploads
     depends_on:
-      # Asegura que el servicio 'db' se inicie antes que el 'backend'
-      - db
+      db:
+        # Espera a que la base de datos esté lista antes de iniciar el backend
+        condition: service_healthy
 
   # Servicio del Frontend (React App)
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        # Pasa la URL del API como argumento de build
+        VITE_API_URL: http://localhost:4000
     container_name: frontend_app
     restart: always
     ports:
       # Mapea el puerto 80 del contenedor al 8080 de tu máquina
       - "8080:80"
-    environment:
-      # Vite necesita esta variable durante el build para que el cliente sepa a dónde llamar
-      - VITE_API_URL=http://localhost:4000
     depends_on:
       # Asegura que el servicio 'backend' se inicie antes que el 'frontend'
       - backend

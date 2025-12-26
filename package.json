@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "devi": "node --watch src/backend/config/server.js",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

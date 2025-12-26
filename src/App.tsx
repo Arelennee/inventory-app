@@ -1,8 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import ProductForm from './pages/ProductForm';
-import ProductList from './pages/ProductList';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar.jsx";
+import ProductForm from "./pages/ProductForm.jsx";
+import ProductList from "./pages/ProductList.jsx";
+import "./App.css";
 
 function App() {
   return (
@@ -19,4 +19,3 @@ function App() {
 }
 
 export default App;
-

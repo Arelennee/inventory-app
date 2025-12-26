@@ -1,7 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { getProducts, getFullImageUrl, deleteProduct } from "../api/products";
-import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
-import EditProductModal from "../components/EditProductModal";
+import {
+  getProducts,
+  getFullImageUrl,
+  deleteProduct,
+} from "../api/products.js";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal.jsx";
+import EditProductModal from "../components/EditProductModal.jsx";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
