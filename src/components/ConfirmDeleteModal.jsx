@@ -1,14 +1,16 @@
-import React from 'react';
-
 const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, productName }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full mx-auto">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Confirmar Eliminación</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          Confirmar Eliminación
+        </h3>
         <p className="text-gray-700 mb-6">
-          ¿Estás seguro de que deseas eliminar <span className="font-bold">"{productName}"</span>? Esta acción no se puede deshacer.
+          ¿Estás seguro de que deseas eliminar{" "}
+          <span className="font-bold">"{productName}"</span>? Esta acción no se
+          puede deshacer.
         </p>
         <div className="flex justify-end space-x-3">
           <button

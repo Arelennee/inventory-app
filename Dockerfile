@@ -19,4 +19,4 @@ EXPOSE 4000
 
 # Definir el comando por defecto que se ejecutará al iniciar el contenedor
 # Esto iniciará tu servidor de Node.js
-CMD ["npm run devi"]
+CMD ["npm", "run", "devi"]

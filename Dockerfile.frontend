@@ -11,8 +11,12 @@ COPY package.json package-lock.json ./
 # Instalamos las dependencias
 RUN npm ci
 
-# Copiamos el resto del código fuente
+# Copiamos el resto del código fuente del frontend
 COPY . .
+
+# Configuramos la URL del API para que apunte al servicio backend
+ARG VITE_API_URL=http://localhost:4000
+ENV VITE_API_URL=$VITE_API_URL
 
 # Ejecutamos el script de build para generar los archivos estáticos
 RUN npm run build
