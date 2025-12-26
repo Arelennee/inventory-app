@@ -6,7 +6,7 @@ const Navbar = () => {
     padding: "1rem",
     display: "flex",
     justifyContent: "center",
-    gap: "1rem",
+    gap: "25rem",
   };
 
   const linkStyle = {

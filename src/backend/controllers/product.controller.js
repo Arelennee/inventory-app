@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 export const getProducts = async (req, res) => {
   try {
     const { q } = req.query;
-    let query = "SELECT id, nombre, imagen_url FROM productos";
+    let query = "SELECT id, nombre, imagen_url, descripcion FROM productos";
     let params = [];
 
     if (q && q.trim()) {
@@ -49,7 +49,7 @@ export const getProductById = async (req, res) => {
 };
 export const createProduct = async (req, res) => {
   try {
-    const { nombre } = req.body;
+    const { nombre, descripcion } = req.body;
 
     if (!nombre || !nombre.trim()) {
       if (req.file) await fs.unlink(req.file.path);
@@ -64,10 +64,10 @@ export const createProduct = async (req, res) => {
     }
 
     const imagenUrl = req.file.filename;
-    const query = "INSERT INTO productos (nombre, imagen_url) VALUES (?, ?)";
+    const query = "INSERT INTO productos (nombre, imagen_url, descripcion) VALUES (?, ?, ?)";
 
     try {
-      const [result] = await db.query(query, [nombre.trim(), imagenUrl]);
+      const [result] = await db.query(query, [nombre.trim(), imagenUrl, descripcion.trim()]);
       res.status(201).json({
         message: "Product created successfully",
         producto: { id: result.insertId, nombre, imagenUrl },
@@ -85,7 +85,7 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre } = req.body;
+    const { nombre, descripcion } = req.body; // 1. Extraemos descripcion
 
     if (!nombre || !nombre.trim()) {
       return res.status(400).json({
@@ -121,15 +121,19 @@ export const updateProduct = async (req, res) => {
     }
 
     const nombreFinal = nombre.trim();
+    const descripcionFinal = descripcion ? descripcion.trim() : null; // 2. Limpiamos descripción si existe
+
     const query =
-      "UPDATE productos SET nombre = ?, imagen_url = ? WHERE id = ?";
-    await db.query(query, [nombreFinal, nuevaImagenUrl, id]);
+      "UPDATE productos SET nombre = ?, descripcion = ?, imagen_url = ? WHERE id = ?";
+    
+    await db.query(query, [nombreFinal, descripcionFinal, nuevaImagenUrl, id]);
 
     res.json({
       message: "Product updated successfully",
       producto: {
         id,
         nombre: nombreFinal,
+        descripcion: descripcionFinal, // 4. Devolvemos el nuevo campo
         imagenUrl: nuevaImagenUrl,
       },
     });
