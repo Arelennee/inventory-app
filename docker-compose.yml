@@ -31,7 +31,7 @@ services:
     restart: always
     ports:
       # Mapea el puerto 4000 del contenedor al 4000 de tu máquina
-      - "4000:4000"
+      - "4001:4000"
     environment:
       PORT: 4000
       DB_HOST: db
@@ -54,7 +54,7 @@ services:
       dockerfile: Dockerfile.frontend
       args:
         # Pasa la URL del API como argumento de build
-        VITE_API_URL: http://localhost:4000
+        VITE_API_URL: http://localhost:4001
     container_name: frontend_app
     restart: always
     ports:
