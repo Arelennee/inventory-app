@@ -54,7 +54,7 @@ services:
       dockerfile: Dockerfile.frontend
       args:
         # Pasa la URL del API como argumento de build
-        VITE_API_URL: 192.168.18.200:4001
+        VITE_API_URL: http://192.168.18.200:4001
     container_name: frontend_app
     restart: always
     ports:
