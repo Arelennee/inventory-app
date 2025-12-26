@@ -59,7 +59,7 @@ services:
     restart: always
     ports:
       # Mapea el puerto 80 del contenedor al 8080 de tu máquina
-      - "8080:80"
+      - "9090:80"
     depends_on:
       # Asegura que el servicio 'backend' se inicie antes que el 'frontend'
       - backend
