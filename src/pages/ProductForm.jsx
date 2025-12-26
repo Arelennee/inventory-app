@@ -3,6 +3,7 @@ import { createProduct } from "../api/products.js";
 
 const ProductForm = () => {
   const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [imagenFile, setImagenFile] = useState(null);
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -26,10 +27,10 @@ const ProductForm = () => {
     setIsLoading(true);
 
     try {
-      const response = await createProduct(nombre, imagenFile);
+      const response = await createProduct(nombre, imagenFile, descripcion);
       setMensaje(response.message || "Producto creado con éxito.");
-      // Limpiar formulario
       setNombre("");
+      setDescripcion("");
       setImagenFile(null);
       e.target.reset();
     } catch (err) {
@@ -40,44 +41,49 @@ const ProductForm = () => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "500px",
-        margin: "2rem auto",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h2>Crear Nuevo Producto</h2>
+    <div className="h-full w-full flex flex-col justify-center items-center">
+      <h2 className="font-black text-2xl p-3">Crear Nuevo Producto</h2>
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
-        <div>
-          <label htmlFor="nombre">Nombre del Producto</label>
+        <div className="flex flex-col gap-y-1">
+          <label htmlFor="nombre" className="font-bold text-xl pointer-events-none">Nombre del Producto:</label>
           <input
             id="nombre"
             type="text"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
+            className="p-2.5 rounded-md hover:bg-zinc-200 animated duration-150"
             placeholder="Ej: Laptop"
-            style={{ width: "100%", padding: "8px", marginTop: "4px" }}
             disabled={isLoading}
           />
         </div>
-        <div>
-          <label htmlFor="imagen">Imagen del Producto</label>
+        <div className="flex flex-col gap-y-1">
+          <label htmlFor="descripcion" className="font-bold text-xl pointer-events-none">Descripcion del Producto:</label>
+          <textarea
+            id="descripcion"
+            type="text"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            className="p-2.5 rounded-md hover:bg-zinc-200 animated duration-150"
+            placeholder="Ej: Producto #0000 para modelo xx"
+            disabled={isLoading}
+          />
+        </div>
+        <div className="flex flex-col gap-y-1">
+          <label htmlFor="imagen" className="font-bold text-xl pointer-events-none">Imagen del Producto:</label>
           <input
             id="imagen"
             type="file"
             onChange={handleFileChange}
-            style={{ width: "100%", padding: "8px", marginTop: "4px" }}
+            className="p-2.5 rounded-md mb-4 hover:bg-zinc-200 animated duration-150"
             disabled={isLoading}
           />
         </div>
         <button
           type="submit"
           disabled={isLoading}
-          style={{ padding: "10px", cursor: "pointer" }}
+          className="block p-2.5 rounded-md bg-zinc-800 text-white hover:bg-zinc-700 duration-150"
         >
           {isLoading ? "Creando..." : "Crear Producto"}
         </button>
