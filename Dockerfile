@@ -15,7 +15,7 @@ RUN npm ci
 COPY . .
 
 # Exponer el puerto que utilizará el servidor de backend (asumo que es el 3001)
-EXPOSE 4000
+EXPOSE 4001
 
 # Definir el comando por defecto que se ejecutará al iniciar el contenedor
 # Esto iniciará tu servidor de Node.js
