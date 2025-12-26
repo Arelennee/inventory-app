@@ -21,7 +21,8 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/api", productsRoutes);
 
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
 
-app.listen(PORT, '0.0.0.0' ,() => {
-  console.log("Server runnig on port", PORT);
+app.listen(PORT, HOST,() => {
+  console.log(`Server runnig on port http://${HOST}/${PORT}`);
 });

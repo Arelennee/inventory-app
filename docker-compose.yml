@@ -33,7 +33,7 @@ services:
       # Mapea el puerto 4000 del contenedor al 4000 de tu máquina
       - "4001:4000"
     environment:
-      PORT: 4001
+      PORT: 4000
       DB_HOST: db
       DB_USER: admin
       DB_PASSWORD: admin123
